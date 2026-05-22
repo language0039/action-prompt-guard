@@ -23,7 +23,7 @@
     "CHANGELOG.md"
   ],
   "bin": {
-    "action-prompt-guard": "./bin/action-prompt-guard.js"
+    "action-prompt-guard": "bin/action-prompt-guard.js"
   },
   "scripts": {
     "scan": "node ./bin/action-prompt-guard.js scan .",

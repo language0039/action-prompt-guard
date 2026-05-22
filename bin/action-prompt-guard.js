@@ -3,8 +3,10 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const VERSION = "0.1.0";
+const VERSION = "0.1.1";
 const WORKFLOW_EXTENSIONS = new Set([".yml", ".yaml"]);
+const VALID_FORMATS = new Set(["text", "json", "markdown"]);
+const VALID_FAIL_ON = new Set(["low", "medium", "high", "critical", "none"]);
 
 const RULES = {
   APG001: {
@@ -62,7 +64,7 @@ function printHelp() {
   console.log(`ActionPromptGuard ${VERSION}
 
 Usage:
-  action-prompt-guard scan [path] [--format text|json|markdown] [--fail-on medium|high|critical|none]
+  action-prompt-guard scan [path] [--format text|json|markdown] [--fail-on low|medium|high|critical|none]
 
 Examples:
   action-prompt-guard scan .
@@ -72,6 +74,14 @@ Examples:
 }
 
 function parseArgs(argv) {
+  if (argv.length === 0 || argv.includes("--help") || argv.includes("-h")) {
+    return { command: "help" };
+  }
+
+  if (argv[0] === "--version" || argv[0] === "-v") {
+    return { command: "version" };
+  }
+
   const [command, maybeTarget, ...rest] = argv;
   const options = {
     command,
@@ -89,14 +99,24 @@ function parseArgs(argv) {
     } else if (flag === "--fail-on") {
       options.failOn = flags[i + 1] || options.failOn;
       i += 1;
-    } else if (flag === "--help" || flag === "-h") {
-      options.command = "help";
-    } else if (flag === "--version" || flag === "-v") {
-      options.command = "version";
     }
   }
 
   return options;
+}
+
+function validateOptions(options) {
+  const errors = [];
+
+  if (!VALID_FORMATS.has(options.format)) {
+    errors.push(`Invalid --format '${options.format}'. Expected one of: ${Array.from(VALID_FORMATS).join(", ")}.`);
+  }
+
+  if (!VALID_FAIL_ON.has(options.failOn)) {
+    errors.push(`Invalid --fail-on '${options.failOn}'. Expected one of: ${Array.from(VALID_FAIL_ON).join(", ")}.`);
+  }
+
+  return errors;
 }
 
 function walk(dir, files = []) {
@@ -115,6 +135,15 @@ function walk(dir, files = []) {
 
 function findWorkflowFiles(targetPath) {
   const absoluteTarget = path.resolve(targetPath);
+  if (!fs.existsSync(absoluteTarget)) {
+    throw new Error(`Target path does not exist: ${targetPath}`);
+  }
+
+  const targetStat = fs.statSync(absoluteTarget);
+  if (targetStat.isFile()) {
+    return WORKFLOW_EXTENSIONS.has(path.extname(absoluteTarget)) ? [absoluteTarget] : [];
+  }
+
   const workflowDir = path.join(absoluteTarget, ".github", "workflows");
   const searchRoot = fs.existsSync(workflowDir) ? workflowDir : absoluteTarget;
   return walk(searchRoot).filter((file) => WORKFLOW_EXTENSIONS.has(path.extname(file)));
@@ -133,7 +162,10 @@ function hasPullRequestTrigger(text) {
 }
 
 function hasWritePermissions(text) {
-  return /^\s*(contents|pull-requests|issues|checks|statuses|actions|id-token|deployments|packages)\s*:\s*write\s*$/m.test(text);
+  return (
+    /^\s*permissions\s*:\s*write-all\s*$/m.test(text) ||
+    /^\s*(contents|pull-requests|issues|checks|statuses|actions|id-token|deployments|packages)\s*:\s*write\s*$/m.test(text)
+  );
 }
 
 function hasBroadPermissions(text) {
@@ -225,7 +257,7 @@ function scanWorkflow(file, root) {
       makeFinding(
         "APG001",
         relativeFile,
-        lineFor(text, /^\s*(contents|pull-requests|issues|checks|statuses|actions|id-token|deployments|packages)\s*:\s*write\s*$/),
+        lineFor(text, /^\s*permissions\s*:\s*write-all\s*$|^\s*(contents|pull-requests|issues|checks|statuses|actions|id-token|deployments|packages)\s*:\s*write\s*$/),
         "pull_request_target is combined with write-capable token permissions."
       )
     );
@@ -397,8 +429,9 @@ function shouldFail(report, failOn) {
 }
 
 function scan(target) {
-  const root = path.resolve(target);
-  const workflowFiles = findWorkflowFiles(root);
+  const absoluteTarget = path.resolve(target);
+  const workflowFiles = findWorkflowFiles(absoluteTarget);
+  const root = fs.statSync(absoluteTarget).isFile() ? path.dirname(absoluteTarget) : absoluteTarget;
   const findings = workflowFiles.flatMap((file) => scanWorkflow(file, root));
   return summarize(findings, workflowFiles.length);
 }
@@ -423,7 +456,23 @@ function main() {
     return;
   }
 
-  const report = scan(options.target);
+  const validationErrors = validateOptions(options);
+  if (validationErrors.length > 0) {
+    for (const error of validationErrors) {
+      console.error(error);
+    }
+    process.exitCode = 2;
+    return;
+  }
+
+  let report;
+  try {
+    report = scan(options.target);
+  } catch (error) {
+    console.error(error.message);
+    process.exitCode = 2;
+    return;
+  }
   if (options.format === "json") {
     console.log(JSON.stringify(report, null, 2));
   } else if (options.format === "markdown") {

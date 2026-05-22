@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const VERSION = "0.1.1";
+const VERSION = "0.1.2";
 const WORKFLOW_EXTENSIONS = new Set([".yml", ".yaml"]);
 const VALID_FORMATS = new Set(["text", "json", "markdown"]);
 const VALID_FAIL_ON = new Set(["low", "medium", "high", "critical", "none"]);

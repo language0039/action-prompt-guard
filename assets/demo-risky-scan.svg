@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1120" viewBox="0 0 1800 1120">
+  <rect width="1800" height="1120" fill="#0b1020"/>
+  <rect x="52" y="48" width="1696" height="1024" rx="28" fill="#101827" stroke="#263246" stroke-width="2"/>
+
+  <text x="88" y="122" fill="#f8fafc" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800">ActionPromptGuard catches the risky PR-agent pattern</text>
+  <text x="88" y="170" fill="#98a6bd" font-family="Inter, Arial, sans-serif" font-size="25">Generated from a real scan of test/fixtures/vulnerable-workflow.yml</text>
+
+  <rect x="88" y="220" width="775" height="780" rx="18" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+  <rect x="88" y="220" width="775" height="58" rx="18" fill="#162033"/>
+  <circle cx="124" cy="249" r="9" fill="#fb7185"/>
+  <circle cx="154" cy="249" r="9" fill="#fbbf24"/>
+  <circle cx="184" cy="249" r="9" fill="#34d399"/>
+  <text x="220" y="258" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">risky-agent-review.yml</text>
+  <text x="122" y="328" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">name: Risky Agent Review</text>
+<text x="122" y="360" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22"></text>
+<text x="122" y="392" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">on:</text>
+<text x="122" y="424" fill="#fecdd3" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  pull_request_target:</text>
+<text x="122" y="456" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">    types: [opened, synchronize]</text>
+<text x="122" y="488" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22"></text>
+<text x="122" y="520" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">permissions:</text>
+<text x="122" y="552" fill="#fecdd3" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  contents: write</text>
+<text x="122" y="584" fill="#fecdd3" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  pull-requests: write</text>
+<text x="122" y="616" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22"></text>
+<text x="122" y="648" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">steps:</text>
+<text x="122" y="680" fill="#fed7aa" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  - uses: tj-actions/changed-files@v44</text>
+<text x="122" y="712" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  - uses: actions/checkout@v4</text>
+<text x="122" y="744" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">    with:</text>
+<text x="122" y="776" fill="#fed7aa" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">      ref: ${{ github.event.pull_request.head.sha }}</text>
+<text x="122" y="808" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  - name: Ask AI reviewer</text>
+<text x="122" y="840" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">    env:</text>
+<text x="122" y="872" fill="#fde68a" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}</text>
+<text x="122" y="904" fill="#fde68a" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">      PROMPT: &quot;Review this PR: ${{ github.event.pull_re...</text>
+<text x="122" y="936" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">    run: npx ai-agent-review --prompt &quot;$PROMPT&quot;</text>
+
+  <rect x="936" y="220" width="776" height="780" rx="18" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+  <rect x="936" y="220" width="776" height="58" rx="18" fill="#162033"/>
+  <circle cx="972" cy="249" r="9" fill="#fb7185"/>
+  <circle cx="1002" cy="249" r="9" fill="#fbbf24"/>
+  <circle cx="1032" cy="249" r="9" fill="#34d399"/>
+  <text x="1068" y="258" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">$ action-prompt-guard scan .</text>
+  <text x="970" y="328" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">ActionPromptGuard 0.1.2</text>
+<text x="970" y="366" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">Files scanned: 1</text>
+<text x="970" y="404" fill="#fda4af" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">Risk score: 100/100</text>
+<text x="970" y="442" fill="#d9e6ff" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">Findings: 7 (2 critical, 2 high, 3 medium)</text>
+<text x="970" y="480" fill="#fecdd3" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">[CRITICAL] APG001: pull_request_target workflow has wri...</text>
+<text x="970" y="518" fill="#b7c2d8" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  Evidence: pull_request_target is combined with write-...</text>
+<text x="970" y="556" fill="#fecdd3" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">[CRITICAL] APG002: pull_request_target checks out untru...</text>
+<text x="970" y="594" fill="#b7c2d8" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  Evidence: Workflow checks out pull request head code ...</text>
+<text x="970" y="632" fill="#fed7aa" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">[HIGH] APG003: Untrusted pull request text appears to b...</text>
+<text x="970" y="670" fill="#b7c2d8" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  Evidence: Untrusted GitHub event text is used in a wo...</text>
+<text x="970" y="708" fill="#fed7aa" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">[HIGH] APG004: Third-party action is not pinned to a fu...</text>
+<text x="970" y="746" fill="#b7c2d8" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  Evidence: Third-party action 'tj-actions/changed-file...</text>
+<text x="970" y="784" fill="#fde68a" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">[MEDIUM] APG005: Workflow grants broad write permissions</text>
+<text x="970" y="822" fill="#b7c2d8" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  Evidence: Workflow grants broad or write-capable perm...</text>
+<text x="970" y="860" fill="#fde68a" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">[MEDIUM] APG006: Secrets are referenced in a pull reque...</text>
+<text x="970" y="898" fill="#b7c2d8" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  Evidence: Workflow references repository secrets whil...</text>
+<text x="970" y="936" fill="#fde68a" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">[MEDIUM] APG007: AI/agent tool runs in a pull request w...</text>
+<text x="970" y="974" fill="#b7c2d8" font-family="SFMono-Regular, Consolas, 'Liberation Mono', monospace" font-size="22">  Evidence: Workflow appears to run an AI/agent tool in...</text>
+
+  <rect x="88" y="1020" width="1624" height="1" fill="#263246"/>
+  <text x="88" y="1052" fill="#98a6bd" font-family="Inter, Arial, sans-serif" font-size="20">The workflow mixes pull_request_target, write permissions, untrusted checkout, secrets, and PR text passed into an AI prompt.</text>
+</svg>

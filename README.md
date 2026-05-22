@@ -14,6 +14,12 @@ AI agents often run inside CI with repository context, GitHub tokens, and someti
 
 ActionPromptGuard gives developers a quick local and CI check before those workflows ship.
 
+## Demo
+
+This demo is generated from a real scan of the intentionally risky workflow in `test/fixtures/vulnerable-workflow.yml`.
+
+![ActionPromptGuard demo showing a risky pull_request_target AI-agent workflow flagged with critical and high findings](assets/demo-risky-scan.png)
+
 ## Quick Start
 
 Run it without installing:
@@ -80,7 +86,7 @@ jobs:
 You can also use the repository as a composite action:
 
 ```yaml
-- uses: language0039/action-prompt-guard@v0.1.1
+- uses: language0039/action-prompt-guard@v0.1.2
   with:
     path: .
     format: markdown

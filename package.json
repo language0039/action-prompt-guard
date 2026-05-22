@@ -1,6 +1,6 @@
 {
   "name": "action-prompt-guard",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Scan GitHub Actions workflows for risky AI-agent and pull request automation patterns.",
   "type": "module",
   "homepage": "https://github.com/language0039/action-prompt-guard#readme",
@@ -15,6 +15,7 @@
     "node": ">=18"
   },
   "files": [
+    "assets",
     "bin",
     "docs",
     "action.yml",

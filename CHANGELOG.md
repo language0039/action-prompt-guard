@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+- Add a generated demo screenshot showing a risky AI-agent workflow being scanned and flagged.
+- Add open-source project docs, issue templates, pull request template, security policy, and CI workflow.
+- Remove deferred monetization notes from public-facing project docs.
+
 ## 0.1.1
 
 - Fix top-level `--help` and `--version`.

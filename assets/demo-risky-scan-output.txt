@@ -1,0 +1,40 @@
+ActionPromptGuard 0.1.2
+Files scanned: 1
+Risk score: 100/100
+Findings: 7 (2 critical, 2 high, 3 medium)
+
+[CRITICAL] APG001: pull_request_target workflow has write-capable permissions
+  vulnerable-workflow.yml:8
+  Evidence: pull_request_target is combined with write-capable token permissions.
+  Fix: Use pull_request instead, reduce permissions to read-only, or split privileged operations into a separately approved workflow.
+
+[CRITICAL] APG002: pull_request_target checks out untrusted pull request code
+  vulnerable-workflow.yml:18
+  Evidence: Workflow checks out pull request head code while running under pull_request_target.
+  Fix: Do not checkout github.event.pull_request.head.* inside pull_request_target workflows. Use pull_request with read-only permissions for untrusted code.
+
+[HIGH] APG003: Untrusted pull request text appears to be passed into an AI or automation prompt
+  vulnerable-workflow.yml:23
+  Evidence: Untrusted GitHub event text is used in a workflow that appears to call an AI/agent tool.
+  Fix: Treat PR titles, bodies, comments, and issue text as untrusted input. Quote and constrain prompts, avoid tool execution, and do not expose secrets.
+
+[HIGH] APG004: Third-party action is not pinned to a full commit SHA
+  vulnerable-workflow.yml:15
+  Evidence: Third-party action 'tj-actions/changed-files@v44' is tag- or branch-pinned instead of SHA-pinned.
+  Fix: Pin third-party actions to a full 40-character commit SHA. Tags and branches can move.
+
+[MEDIUM] APG005: Workflow grants broad write permissions
+  vulnerable-workflow.yml:7
+  Evidence: Workflow grants broad or write-capable permissions.
+  Fix: Set the minimum required permissions explicitly. Prefer contents: read and avoid write permissions unless the job truly needs them.
+
+[MEDIUM] APG006: Secrets are referenced in a pull request-triggered workflow
+  vulnerable-workflow.yml:22
+  Evidence: Workflow references repository secrets while handling pull request events.
+  Fix: Avoid exposing secrets to workflows that process untrusted pull request content or code. Use protected environments or manual approval.
+
+[MEDIUM] APG007: AI/agent tool runs in a pull request workflow
+  vulnerable-workflow.yml:22
+  Evidence: Workflow appears to run an AI/agent tool in pull request context.
+  Fix: Run AI agents with read-only tokens by default. Disable shell/tool execution where possible and isolate any write operations.
+

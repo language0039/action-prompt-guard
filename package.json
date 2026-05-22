@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "description": "Scan GitHub Actions workflows for risky AI-agent and pull request automation patterns.",
   "type": "module",
+  "homepage": "https://github.com/language0039/action-prompt-guard#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/language0039/action-prompt-guard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/language0039/action-prompt-guard/issues"
+  },
   "engines": {
     "node": ">=18"
   },

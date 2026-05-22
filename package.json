@@ -19,6 +19,9 @@
     "docs",
     "action.yml",
     "README.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "CODE_OF_CONDUCT.md",
     "LICENSE",
     "CHANGELOG.md"
   ],

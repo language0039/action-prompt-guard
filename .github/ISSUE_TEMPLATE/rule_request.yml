@@ -1,0 +1,26 @@
+name: Rule request
+description: Suggest a new risky workflow pattern to detect.
+title: "[Rule]: "
+labels: ["rule-request"]
+body:
+  - type: textarea
+    id: pattern
+    attributes:
+      label: Risky pattern
+      description: What workflow pattern should ActionPromptGuard detect?
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example workflow
+      render: yaml
+    validations:
+      required: false
+  - type: textarea
+    id: remediation
+    attributes:
+      label: Suggested remediation
+      description: What should users do instead?
+    validations:
+      required: false

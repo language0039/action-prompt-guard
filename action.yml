@@ -1,0 +1,23 @@
+name: ActionPromptGuard
+description: Scan GitHub Actions workflows for risky AI-agent and pull request automation patterns.
+author: ActionPromptGuard
+
+inputs:
+  path:
+    description: Repository path to scan.
+    required: false
+    default: .
+  format:
+    description: Output format: text, markdown, or json.
+    required: false
+    default: text
+  fail-on:
+    description: Minimum severity that should fail the workflow: medium, high, critical, or none.
+    required: false
+    default: high
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: node "$GITHUB_ACTION_PATH/bin/action-prompt-guard.js" scan "${{ inputs.path }}" --format "${{ inputs.format }}" --fail-on "${{ inputs.fail-on }}"

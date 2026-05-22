@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ActionPromptGuard</title>
+    <meta name="description" content="Scan GitHub Actions workflows for risky AI-agent and pull request automation patterns.">
+    <style>
+      :root {
+        --ink: #111827;
+        --muted: #5b6472;
+        --line: #d9e1ea;
+        --panel: #ffffff;
+        --bg: #f7fafc;
+        --accent: #be123c;
+        --accent-dark: #9f1239;
+        --code: #0f172a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.55;
+      }
+
+      .shell {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      header {
+        border-bottom: 1px solid var(--line);
+        background: rgba(247, 250, 252, 0.94);
+        position: sticky;
+        top: 0;
+      }
+
+      nav {
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .brand {
+        font-weight: 850;
+      }
+
+      .button {
+        min-height: 42px;
+        padding: 0 16px;
+        border-radius: 8px;
+        border: 1px solid var(--accent);
+        background: var(--accent);
+        color: #fff;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+      }
+
+      .button.secondary {
+        color: var(--accent-dark);
+        background: #fff;
+      }
+
+      main {
+        padding: 62px 0 76px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(360px, 520px);
+        gap: 38px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--accent-dark);
+        font-weight: 850;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.4rem, 4.7vw, 5rem);
+        line-height: 1.02;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        margin: 20px 0 0;
+        max-width: 720px;
+        font-size: 1.14rem;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 26px;
+      }
+
+      .terminal {
+        background: var(--code);
+        color: #d6e2ff;
+        border-radius: 8px;
+        padding: 22px;
+        box-shadow: 0 24px 70px rgba(17, 24, 39, 0.22);
+        overflow: hidden;
+      }
+
+      .terminal pre {
+        margin: 0;
+        white-space: pre-wrap;
+        font-size: 0.96rem;
+      }
+
+      .danger {
+        color: #fda4af;
+      }
+
+      .ok {
+        color: #86efac;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 48px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 20px;
+      }
+
+      .card h2 {
+        margin: 0 0 8px;
+        font-size: 1.08rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .section {
+        margin-top: 60px;
+      }
+
+      .section h2 {
+        margin: 0 0 12px;
+        font-size: clamp(1.8rem, 3vw, 3rem);
+        line-height: 1.1;
+      }
+
+      .section p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 760px;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        padding: 28px 0;
+      }
+
+      @media (max-width: 880px) {
+        .hero,
+        .cards {
+          grid-template-columns: 1fr;
+        }
+
+        main {
+          padding-top: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="shell">
+        <div class="brand">ActionPromptGuard</div>
+        <a class="button" href="https://github.com/YOUR_GITHUB_USERNAME/action-prompt-guard">View on GitHub</a>
+      </nav>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">GitHub Actions security for AI-agent workflows</p>
+          <h1>Scan PR bots before they become a security boundary mistake.</h1>
+          <p class="lead">ActionPromptGuard detects risky combinations of AI agents, untrusted pull request input, secrets, write permissions, and `pull_request_target` workflows.</p>
+          <div class="actions">
+            <a class="button" href="https://github.com/YOUR_GITHUB_USERNAME/action-prompt-guard">Install CLI</a>
+            <a class="button secondary" href="#rules">See rules</a>
+          </div>
+        </div>
+        <div class="terminal" aria-label="Example scanner output">
+<pre>$ npx action-prompt-guard scan .
+
+Risk score: <span class="danger">100/100</span>
+
+<span class="danger">[CRITICAL]</span> APG001 pull_request_target has write permissions
+<span class="danger">[CRITICAL]</span> APG002 checks out untrusted PR head code
+<span class="danger">[HIGH]</span> APG003 PR body passed into AI prompt
+<span class="ok">Fix:</span> split privileged operations and pin actions to SHAs</pre>
+        </div>
+      </section>
+
+      <section class="cards" id="rules">
+        <article class="card">
+          <h2>Agent prompt injection</h2>
+          <p>Flags PR titles, bodies, comments, and issue text flowing into AI or automation prompts.</p>
+        </article>
+        <article class="card">
+          <h2>Workflow privilege risk</h2>
+          <p>Catches `pull_request_target` workflows with write permissions or untrusted checkout patterns.</p>
+        </article>
+        <article class="card">
+          <h2>Supply-chain hygiene</h2>
+          <p>Reports third-party actions pinned to mutable tags instead of full commit SHAs.</p>
+        </article>
+      </section>
+
+      <section class="section">
+        <h2>Built for teams adopting AI coding tools.</h2>
+        <p>Run it locally, add it to CI, then upgrade to client-ready reports and team policy presets when you need a stronger handoff.</p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="shell">Free CLI first. Paid report bundle and GitHub PR comment workflow next.</div>
+    </footer>
+  </body>
+</html>

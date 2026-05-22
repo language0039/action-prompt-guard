@@ -1,0 +1,32 @@
+{
+  "name": "action-prompt-guard",
+  "version": "0.1.0",
+  "description": "Scan GitHub Actions workflows for risky AI-agent and pull request automation patterns.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin",
+    "docs",
+    "action.yml",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "bin": {
+    "action-prompt-guard": "./bin/action-prompt-guard.js"
+  },
+  "scripts": {
+    "scan": "node ./bin/action-prompt-guard.js scan .",
+    "test": "node ./test/run-tests.js"
+  },
+  "keywords": [
+    "github-actions",
+    "security",
+    "ai-agents",
+    "pull-request",
+    "ci"
+  ],
+  "license": "MIT"
+}
